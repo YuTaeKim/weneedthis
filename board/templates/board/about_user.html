@@ -1,0 +1,20 @@
+{% extends './signup.html' %}
+{% block content%}
+<div class="row mb-3">
+    <div class="col-md-3 themed-grid-col">
+        <a href="{%url 'board:about_user' %}"><h4>Profile</h4></a><br>
+        <a href="{%url 'board:user_update' %}"><h4>Account Management</h4></a><br>
+        <a href="{%url 'board:user_idea' %}"><h4>MY Idea</h4></a><br>
+        <a href="{%url 'board:user_likes' %}"><h4>I like</h4></a><br>
+    </div>
+    <div class="col-md-9 themed-grid-col">
+    {% block article%}
+        <p>Status: {{user.thinker_status}}</p>
+        <p>My total ideas: {{user.total_ideas}}</p>
+        <p>My total likes: {{user.total_ideas_likes}}</p>
+    {%endblock %}
+    </div>
+    </div>
+{%endblock %}
+
+   

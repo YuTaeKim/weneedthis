@@ -1,0 +1,11 @@
+<Category>
+- Share Idea
+- Application Test
+
+
+<Model>
+- User (name, password, , developer_vote, developer_status, thinker_vote, thinker_status)
+** thinker_vote=sum(All of Make_idea + All of Comment)
+- Idea(title, author, article, pub_date, vote)
+- Comment(author, article, pub_date,vote)
+- App

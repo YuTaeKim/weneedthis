@@ -1,0 +1,55 @@
+{% extends './index.html' %}
+{% load static %}
+{%block link%}
+<link href="{% static 'css/signup.css' %}" rel="stylesheet">
+{%endblock%}
+
+
+
+{% block content%}
+    <form class="form-signin" action="{% url 'board:signup_process' %}" method="POST">
+        <h1 class="mb-3 font-weight-normal">Sign up form</h1>
+        {%csrf_token%}
+        <p style="margin-top:50px;" id="username">
+        Username
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+        <input type="button" id="check_button" value="Confirm" >
+        </p>
+        <p id="username_check"></p>
+        <script>
+           $('#check_button').click(function(){
+               var pk=$('#inputUsername').val()
+               $.ajax({
+                   type:"post",
+                   url:"{% url 'board:username_check' %}",
+                   data: {'pk':pk,'csrfmiddlewaretoken':'{{ csrf_token }}'},
+                    dataType:"json",
+                    success:function(response){
+                        $('#username_check').html(response.message)
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+               });
+           })
+        </script>
+        <p>
+       <span style="margin-right: 5px;">Password</span>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        </p>
+        <p>
+       <span style="margin-right: 15px;">Confirm</span>
+        <label for="inputConfirm" class="sr-only">Confirm</label>
+        <input type="password" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="confirm" id="inputConfirm" class="form-control" placeholder="Password Confirmation" required>
+        </p>
+        <p>
+            <span style="margin-right: 33px;">Email</span>
+            <label for="inputEmail" class="sr-only">Email</label>
+            <input type="email" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="email" id="inputEmail" class="form-control" placeholder="Email" required>
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+      </form>
+
+      {%endblock %}

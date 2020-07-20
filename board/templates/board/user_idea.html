@@ -1,0 +1,13 @@
+{% extends './about_user.html' %}
+{% block article%}
+    <p>Total ideas: {{user.total_ideas}}</p>
+    <ul>
+    {%for idea in user.idea.all%}
+    <li>
+        <a href="{% url 'board:idea_edit' idea.pk %}"><h5>{{idea.title}}</h5></a><br>
+       
+        
+    </li>
+    {%endfor%}
+    </ul>
+{%endblock %}

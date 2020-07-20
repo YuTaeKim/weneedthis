@@ -1,0 +1,14 @@
+{% extends './about_user.html' %}
+{% block article%}
+    <p>Total likes: {{user.total_ideas_likes}}</p>
+    <ul>
+    {%for likes in user.idea_likes.all%}
+    <li>
+        <a href="{% url 'board:idea_edit' likes.pk %}"><h5>{{likes.title}}</h5></a>
+        <h5>{{likes.author}}</h5>
+       
+        
+    </li>
+    {%endfor%}
+    </ul>
+{%endblock %}

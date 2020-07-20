@@ -1,0 +1,18 @@
+{% extends './index.html' %}
+{% block content%}
+    <br>
+    <div class="container">
+        <h1>글쓰기</h1>
+        <hr>
+        <br><br>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-dark" value="저장">
+        </form>
+        {%if post%}
+        <a href="{% url 'board:idea_delete' post.pk %}"><input type="button" class="btn btn-dark" value="삭제"></a>
+        {%endif%}
+    </div>
+{%endblock %}

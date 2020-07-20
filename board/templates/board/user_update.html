@@ -1,0 +1,29 @@
+{% extends './about_user.html' %}
+{% block article%}
+    <form class="form-signin" action="{% url 'board:user_update_process' %}" method="POST">
+        <h1 class="mb-3 font-weight-normal">Account Management</h1>
+        {%csrf_token%}
+        <p>
+            <span style="margin-right: 11px;">Old Password</span>
+             <label for="inputPassword1" class="sr-only">Old Password</label>
+             <input type="password" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="origin_password" id="inputPassword1" class="form-control" placeholder="Old Password" required>
+        </p>
+        <p>
+       <span style="margin-right: 5px;">New Password</span>
+        <label for="inputPassword2" class="sr-only">New Password</label>
+        <input type="password" name="password" id="inputPassword2" class="form-control" placeholder="New Password" >
+        </p>
+        <p>
+       <span style="margin-right: 51px;">Confirm</span>
+        <label for="inputConfirm" class="sr-only">Confirm</label>
+        <input type="password" name="confirm" id="inputConfirm" class="form-control" placeholder="Password Confirmation" >
+        </p>
+        <p>
+            <span style="margin-right: 33px;">New Email</span>
+            <label for="inputEmail" class="sr-only">New Email</label>
+            <input type="email" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="email" id="inputEmail" class="form-control" placeholder="New Email" value="{{request.user.email}}" required>
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+      </form>
+
+{%endblock %}

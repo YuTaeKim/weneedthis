@@ -1,0 +1,10 @@
+{% extends './signup.html' %}
+
+{%block err%}
+{%ifequal error 'username' %}
+<div style="color:red">The same username already exists.</div>
+{%else%}
+<div style="color:red">The password does not match.</div>
+{%endifequal%}
+{%endblock%}
+
