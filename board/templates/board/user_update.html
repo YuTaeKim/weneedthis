@@ -1,29 +1,59 @@
 {% extends './about_user.html' %}
 {% block article%}
+<style>
+    h1{
+        margin-top: 0px;
+    }
+    .form-signin {
+  width: 100%;
+  max-width: 500px;
+  padding: 15px;
+  padding-top: 0px;
+  margin: auto;
+    }
+    .form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  display:inline-block;
+  width:70%;
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+  margin-left:20px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+</style>
+    {% block update_error%}
+    {%endblock%}
     <form class="form-signin" action="{% url 'board:user_update_process' %}" method="POST">
-        <h1 class="mb-3 font-weight-normal">Account Management</h1>
+        <h4 class="mb-3 font-weight-normal">정보 수정</h4>
         {%csrf_token%}
         <p>
-            <span style="margin-right: 11px;">Old Password</span>
-             <label for="inputPassword1" class="sr-only">Old Password</label>
-             <input type="password" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="origin_password" id="inputPassword1" class="form-control" placeholder="Old Password" required>
+            <span style="margin-right: 11px;">기존 비밀번호</span>
+             <label for="inputPassword1" class="sr-only">기존 비밀번호</label>
+             <input type="password"  name="origin_password" id="inputPassword1" class="form-control" placeholder="기존 비밀번호" required>
         </p>
         <p>
-       <span style="margin-right: 5px;">New Password</span>
-        <label for="inputPassword2" class="sr-only">New Password</label>
-        <input type="password" name="password" id="inputPassword2" class="form-control" placeholder="New Password" >
-        </p>
-        <p>
-       <span style="margin-right: 51px;">Confirm</span>
-        <label for="inputConfirm" class="sr-only">Confirm</label>
-        <input type="password" name="confirm" id="inputConfirm" class="form-control" placeholder="Password Confirmation" >
-        </p>
-        <p>
-            <span style="margin-right: 33px;">New Email</span>
-            <label for="inputEmail" class="sr-only">New Email</label>
-            <input type="email" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="email" id="inputEmail" class="form-control" placeholder="New Email" value="{{request.user.email}}" required>
-        </p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+            <span style="margin-right: 27px;">새 비밀번호</span>
+             <label for="inputPassword2" class="sr-only">새 비밀번호</label>
+             <input type="password" name="password" id="inputPassword2" class="form-control" placeholder="새 비밀번호" >
+             </p>
+             <p>
+            <span style="margin-right: 11px;">비밀번호 확인</span>
+             <label for="inputConfirm" class="sr-only">비밀번호 확인</label>
+             <input type="password" name="confirm" id="inputConfirm" class="form-control" placeholder="비밀번호 확인" >
+             </p>
+             <p>
+                 <span style="margin-right: 43px;">새 이메일</span>
+                 <label for="inputEmail" class="sr-only">새 이메일</label>
+                 <input type="email"  name="email" id="inputEmail" class="form-control" placeholder="새 이메일" value="{{request.user.email}}" required>
+             </p>
+             <button class="btn btn-lg btn-primary btn-block" type="submit">업데이트</button>
       </form>
 
 {%endblock %}

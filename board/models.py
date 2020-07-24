@@ -6,7 +6,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 class User(AbstractUser):
     thinker_likes=models.IntegerField(default=0)
-    thinker_status=models.CharField(max_length=20,default='so so')
+    thinker_status=models.CharField(max_length=20,default='꿈나무')
 
     def __str__(self):
         return self.username

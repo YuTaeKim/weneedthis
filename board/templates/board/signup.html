@@ -7,16 +7,16 @@
 
 
 {% block content%}
-    <form class="form-signin" action="{% url 'board:signup_process' %}" method="POST">
-        <h1 class="mb-3 font-weight-normal">Sign up form</h1>
+    <form style="text-align: center;" class="form-signin" action="{% url 'board:signup_process' %}" method="POST">
+        <h1 class="mb-3 font-weight-normal">회원가입</h1>
         {%csrf_token%}
-        <p style="margin-top:50px;" id="username">
-        Username
-        <label for="inputUsername" class="sr-only">Username</label>
-        <input type="text" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-        <input type="button" id="check_button" value="Confirm" >
+        <p style="margin-top:30px;" id="username">
+        <span style="margin-right: 62px;">아이디</span>
+        <label for="inputUsername" class="sr-only">아이디</label>
+        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="아이디" required autofocus>
+        <input type="button" id="check_button" value="중복확인" >
         </p>
-        <p id="username_check"></p>
+        <p id="username_check" style="color:dodgerblue"></p>
         <script>
            $('#check_button').click(function(){
                var pk=$('#inputUsername').val()
@@ -35,21 +35,20 @@
            })
         </script>
         <p>
-       <span style="margin-right: 5px;">Password</span>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+       <span style="margin-right: 46px;">비밀번호</span>
+        <label for="inputPassword" class="sr-only">비밀번호</label>
+        <input type="password"  name="password" id="inputPassword" class="form-control" placeholder="비밀번호" required>
         </p>
         <p>
-       <span style="margin-right: 15px;">Confirm</span>
-        <label for="inputConfirm" class="sr-only">Confirm</label>
-        <input type="password" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="confirm" id="inputConfirm" class="form-control" placeholder="Password Confirmation" required>
+       <span style="margin-right: 11px;">비밀번호 확인</span>
+        <label for="inputConfirm" class="sr-only">비밀번호 확인</label>
+        <input type="password"  name="confirm" id="inputConfirm" class="form-control" placeholder="비밀번호 확인" required>
         </p>
         <p>
-            <span style="margin-right: 33px;">Email</span>
-            <label for="inputEmail" class="sr-only">Email</label>
-            <input type="email" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" name="email" id="inputEmail" class="form-control" placeholder="Email" required>
+            <span style="margin-right: 62px;">이메일</span>
+            <label for="inputEmail" class="sr-only">이메일</label>
+            <input type="email"  name="email" id="inputEmail" class="form-control" placeholder="이메일" required>
         </p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">회원가입</button>
       </form>
-
       {%endblock %}

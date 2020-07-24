@@ -1,6 +1,11 @@
 {% extends './about_user.html' %}
 {% block article%}
-    <p>Total ideas: {{user.total_ideas}}</p>
+<style>
+    ul li{
+        text-align: left;
+    }
+</style>
+    <p>총 개수 : {{user.total_ideas}}개</p>
     <ul>
     {%for idea in user.idea.all%}
     <li>

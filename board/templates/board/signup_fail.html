@@ -2,9 +2,9 @@
 
 {%block err%}
 {%ifequal error 'username' %}
-<div style="color:red">The same username already exists.</div>
+<div style="color:red; text-align: center;">동일한 아이디가 존재합니다.</div>
 {%else%}
-<div style="color:red">The password does not match.</div>
+<div style="color:red; text-align: center;">비밀번호가 일치하지 않습니다.</div>
 {%endifequal%}
 {%endblock%}
 

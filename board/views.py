@@ -13,6 +13,9 @@ from .forms import IdeaForm
 def index(request):
     return render(request,'board/index.html')
 
+def about_site(request):
+    return render(request,'board/about_site.html')
+
 @login_required
 def idea_list(request):
     form=Idea.objects.all()
@@ -137,7 +140,7 @@ def logout_process(request):
     return HttpResponseRedirect(reverse('board:logout_success'))
 
 def logout_success(request):
-    return render(request,'board/logout_success.html')
+    return render(request,'board/index.html')
 
 def user_update(request):
     return render(request,'board/user_update.html')
@@ -151,7 +154,7 @@ def user_update_process(request):
             return HttpResponseRedirect(reverse('board:user_update_success'))
         else:
             if request.POST['password']!=request.POST['confirm']:
-                return HttpResponseRedirect(reverse('board:user_update_fail',args=('New password',))) 
+                return HttpResponseRedirect(reverse('board:user_update_fail',args=('새 비밀번호',))) 
             else:
                 user=User.objects.get(username=request.user.username)
                 user.email=request.POST['email']
@@ -160,7 +163,7 @@ def user_update_process(request):
                 login(request,user)
                 return HttpResponseRedirect(reverse('board:user_update_success')) 
     else:
-        return HttpResponseRedirect(reverse('board:user_update_fail',args=('Old password',))) 
+        return HttpResponseRedirect(reverse('board:user_update_fail',args=('기존 비밀번호',))) 
 
 def user_update_success(request):
     return render(request,'board/user_update_success.html')
@@ -172,12 +175,12 @@ def username_check(request):
    
     try:
         User.objects.get(username=request.POST['pk'])
-        message='The same username already exists.'
+        message='동일한 아이디가 존재합니다.'
     except:
         if request.POST['pk']=='':
-            message='Please enter your username.'
+            message='아이디를 입력해주세요.'
         else:
-            message='Confirm!'
+            message='가능한 아이디입니다!'
     
     context={'message':message}
     return HttpResponse(json.dumps(context),content_type='application/json')
@@ -199,3 +202,6 @@ def application(request):
 
 def feedback(request):
     return render(request,'board/feedback.html')
+
+def motivation(request):
+    return render(request,'board/motivation.html')

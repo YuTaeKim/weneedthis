@@ -1,14 +1,19 @@
 {% extends './about_user.html' %}
 {% block article%}
-    <p>Total likes: {{user.total_ideas_likes}}</p>
+<style>
+    ul li{
+        text-align: left;
+    }
+</style>
+    <p>총 개수 : {{user.total_ideas_likes}}개</p>
     <ul>
     {%for likes in user.idea_likes.all%}
-    <li>
+    <li style="margin-bottom: 1rem;">
         <a href="{% url 'board:idea_edit' likes.pk %}"><h5>{{likes.title}}</h5></a>
-        <h5>{{likes.author}}</h5>
+        <h6>작성자 : {{likes.author}}</h6>
        
         
     </li>
     {%endfor%}
-    </ul>
+    </ul> 
 {%endblock %}

@@ -1,20 +1,27 @@
-{% extends './signup.html' %}
+{% extends './index.html' %}
 {% block content%}
-<div class="row mb-3">
+<style>
+    .col-md-3 h5{
+        color:deepskyblue;
+    }
+</style>
+<div class="row mb-3" style="margin-top: 2rem;">
     <div class="col-md-3 themed-grid-col">
-        <a href="{%url 'board:about_user' %}"><h4>Profile</h4></a><br>
-        <a href="{%url 'board:user_update' %}"><h4>Account Management</h4></a><br>
-        <a href="{%url 'board:user_idea' %}"><h4>MY Idea</h4></a><br>
-        <a href="{%url 'board:user_likes' %}"><h4>I like</h4></a><br>
+        <a href="{%url 'board:about_user' %}"><h5>내정보</h5></a><br>
+        <a href="{%url 'board:user_update' %}"><h5>정보 수정</h5></a><br>
+        <a href="{%url 'board:user_idea' %}"><h5>내가 쓴 글</h5></a><br>
+        <a href="{%url 'board:user_likes' %}"><h5>내가 누른 좋아요</h5></a><br>
     </div>
-    <div class="col-md-9 themed-grid-col">
+    <div class="col-md-9 themed-grid-col text-center">
     {% block article%}
-        <p>Status: {{user.thinker_status}}</p>
-        <p>My total ideas: {{user.total_ideas}}</p>
-        <p>My total likes: {{user.total_ideas_likes}}</p>
+        <h5>현재 랭킹 : {{user.thinker_status}}</h5><br>
+        <h5>이메일 : {{user.email}}</h5>
     {%endblock %}
     </div>
     </div>
+<script>
+    $('#mypage').addClass("active");
+</script>
 {%endblock %}
 
    

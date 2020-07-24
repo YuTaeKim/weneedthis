@@ -4,18 +4,18 @@
 <link href="{% static 'css/signin.css' %}" rel="stylesheet">
 {%endblock%}
 {% block content%}
-    <form class="form-signin" action="{% url 'board:signin_process' %}" method="POST">
-        <h1 class="h3 mb-3 font-weight-normal">Please log in</h1>
+    <form style="text-align: center;" class="form-signin" action="{% url 'board:signin_process' %}" method="POST">
+        <h1 class="h3 mb-3 font-weight-normal">로그인</h1>
         {%csrf_token%}
-        <label for="inputUsername" class="sr-only">Username</label>
-        <input type="text"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" id="inputUsername" class="form-control" placeholder="Username" name="username" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password"  oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please fill out this text box.')" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
+        <label for="inputUsername" class="sr-only">아이디</label>
+        <input type="text" id="inputUsername" class="form-control" placeholder="아이디" name="username" required autofocus>
+        <label for="inputPassword" class="sr-only">비밀번호</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="비밀번호" name="password" required>
         <div class="checkbox mb-3">
           <label>
-            <input type="checkbox" name="remember" value="remember-me"> Remember me
+            <input type="checkbox" name="remember" value="remember-me"> 아이디 저장
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
       </form>
 {%endblock %}
