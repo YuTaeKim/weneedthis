@@ -1,6 +1,12 @@
 {% extends './index.html' %}
 {% block content%}
-    {{post.author}}<br>
-    {{post.title}}<br>
-    {{post.article|safe}}<br>
+<style>
+    h4{
+        margin-top:3.5rem;
+       
+    }
+</style>
+    <h4 style="word-break: break-all;">{{post.title}}</h4><hr>
+    <h6>작성자 : {{post.author}}</h6>
+    <div style="word-break: break-all;border:10px solid pink; padding:15px; margin-top: 2rem; margin-bottom: 3rem;">{{post.article|safe}}</div>    
 {%endblock %}

@@ -1,0 +1,24 @@
+<div class="single_comment" style="margin-top: 10px;">
+    &nbsp;
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-return-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M10.146 5.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L12.793 9l-2.647-2.646a.5.5 0 0 1 0-.708z"/>
+        <path fill-rule="evenodd" d="M3 2.5a.5.5 0 0 0-.5.5v4A2.5 2.5 0 0 0 5 9.5h8.5a.5.5 0 0 0 0-1H5A1.5 1.5 0 0 1 3.5 7V3a.5.5 0 0 0-.5-.5z"/>
+    </svg>
+    <span style="vertical-align: middle;"><font style="font-weight:600;color:steelblue">{{comment.author}}</font>&nbsp;
+        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+            {%ifequal user comment.author%}
+            <button style="font-size: 0.8rem;padding:0.25rem 0.25rem;" type="button" class="btn btn-secondary update" name="{{comment.pk}}" id="update{{comment.pk}}">수정</button>
+            <button style="font-size: 0.8rem;padding:0.25rem 0.25rem;" type="button" class="btn btn-secondary delete" name="{{comment.pk}}" id="delete{{comment.pk}}">삭제</button>
+            {%endifequal%}
+        </div>
+    </span><br>
+    <div id="comment_article{{comment.pk}}" style="margin-left: 25px;">{{comment.article}}</div>
+    <div id="update_article{{comment.pk}}" style="display:none; margin-left: 25px;">
+        <div  class="input-group" style=" margin-top: 0.5rem;">
+            <input type="text" id="update_comment{{comment.pk}}" class="form-control" value="{{comment.article}}"  aria-describedby="button-addon2">
+            <div class="input-group-append">
+            <button style="background-color:gainsboro;color:black;"class="btn btn-outline-secondary update_process" type="button" name="{{comment.pk}}" id="update_process{{comment.pk}}">수정</button>
+            </div>
+        </div>
+    </div>
+</div>

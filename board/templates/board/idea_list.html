@@ -6,7 +6,7 @@
     {% for post in form %}
  
     <div class="container themed-container">
-        <a href="{% url 'board:idea_edit' post.pk %}"><h5>{{post.title}}</h5></a>
+        <a href="{% url 'board:idea_edit' post.pk %}"><h5 style="word-break: break-all;">{{post.title}}</h5></a>
         <h6>작성자 : {{post.author}}</h6>
         {%if user in post.likes.all%}
         <input type="button" id="button{{post.pk}}" name="{{post.pk}}" value="좋아요" style="color:red">
@@ -15,14 +15,111 @@
         {%endif%}
 
         <span id="count{{post.pk}}">&nbsp;{{post.total_likes}}명</span>
+        <div class="input-group" style="margin-top: 0.5rem;">
+            <input type="text" id="comment{{post.pk}}" class="form-control" placeholder="댓글 추가..." aria-label="댓글 추가..." aria-describedby="button-addon2" >
+            <div class="input-group-append">
+            <button style="background-color:gainsboro;color:black;"class="btn btn-outline-secondary add" type="button" name="{{post.pk}}" id="add{{post.pk}}">댓글</button>
+            </div>
+        </div>
+
+        <div id="plus_comment{{post.pk}}" style="word-break: break-all;">
+        {% for comment in post.comment.all%}
+        {% include './comment_list.html'%}
+        {%endfor%}
+        </div>
+        
+
     </div>
   
     {%endfor%}
     <script>
+        $(document).on('click','button.delete',function(){
+            var pk=$(this).attr('name')
+            $.ajax({
+                type:"post",
+                url:"{% url 'board:delete_comment' %}",
+                data: {'pk':pk,'csrfmiddlewaretoken':'{{ csrf_token }}'},
+                dataType:"json",
+                success:function(response){
+                    comment = $('#delete'+pk).parents('div.single_comment');
+                    comment.remove();
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            });
+        })
+    </script>
+
+    <script>
+        $(document).on('click','button.update',function(){
+            var pk=$(this).attr('name')
+            if($(this).hasClass('process')){
+                $('#comment_article'+pk).show();
+                $('#update_article'+pk).hide();
+                $(this).removeClass('process');
+            }
+            else{
+                $('#comment_article'+pk).hide();
+                $('#update_article'+pk).show();
+                $(this).addClass('process');
+            }
+        })
+
+    </script>
+        
+    <script>
+        $(document).on('click','button.update_process',function(){
+            var pk=$(this).attr('name')
+            var content=$('#update_comment'+pk).val()
+            $.ajax({
+                type:"post",
+                url:"{% url 'board:update_comment' %}",
+                data: {'content':content,'pk':pk,'csrfmiddlewaretoken':'{{ csrf_token }}'},
+                dataType:"json",
+                success:function(response){
+                    $('#comment_article'+pk).html(response.article);
+                    $('#comment_article'+pk).show();
+                    $('#update_article'+pk).hide();
+                    $('#update'+pk).removeClass('process');
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            });
+        })
+    </script>
+
+    <script>
+        $(document).on('click','button.add',function(){
+            var pk=$(this).attr('name')
+            var content=$('#comment'+pk).val()
+            if(content==''){
+                alert('댓글 내용이 필요합니다.');
+                return;
+            }
+            $.ajax({
+                type:"post",
+                url:"{% url 'board:add_comment' %}",
+                data: {'content':content,'pk':pk,'csrfmiddlewaretoken':'{{ csrf_token }}'},
+                dataType:"json",
+                success:function(response){
+                    $('#plus_comment'+pk).append(response.html);
+                    $('#comment'+pk).val("");
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            });
+        })
+    </script>
+
+    <script>
         $('#idea').addClass("active");
     </script>
+
     <script>
-        $('div input[type=button]').click(function(){
+        $(document).on('click','div input[type=button]',function(){
             var pk=$(this).attr('name')
             $.ajax({
                 type:"post",

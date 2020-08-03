@@ -12,9 +12,11 @@ class User(AbstractUser):
         return self.username
 
     def update_thinker_status(self):
-        likes=self.idea.total_likes+self.feedback.total_likes+self.comment.total_likes
-        if likes>10:
-            self.thinker_status='genius'
+        if self.thinker_likes>19:
+            self.thinker_status='혁신가'
+            self.save()
+        else:
+            self.thinker_status='꿈나무'
             self.save()
 
     @property
@@ -24,6 +26,14 @@ class User(AbstractUser):
     @property
     def total_ideas_likes(self):
         return self.idea_likes.count()
+    
+    @property
+    def total_comments(self):
+        return self.comment.count()
+
+    @property
+    def total_comments_likes(self):
+        return self.comment_likes.count()
     
 
 class form(models.Model):
@@ -47,12 +57,11 @@ class Idea(form):
     def total_likes(self):
         return self.likes.count() 
 
-
-class Feedback(form):
-    author=models.ForeignKey('User',on_delete=models.CASCADE,related_name='feedback')
+class Motivation(form):
+    author=models.ForeignKey('User',on_delete=models.CASCADE,related_name='motivation')
     title=models.CharField(max_length=100)
-    likes=models.ManyToManyField('User',related_name='feedback_likes',blank=True)
- 
+    likes=models.ManyToManyField('User',related_name='motivation_likes',blank=True)
+
     def __str__(self):
         return self.author.username+' - '+self.title
 
@@ -61,7 +70,21 @@ class Feedback(form):
         return self.likes.count() 
 
 
-class Comment(form):
+
+
+class form2(models.Model):
+    article=models.TextField()
+    pub_date=models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract=True
+        ordering=['pub_date']
+
+
+
+class Comment(form2):
+    for_idea=models.ForeignKey('Idea',on_delete=models.CASCADE,related_name='comment')
+    reply_to=models.ForeignKey('self',on_delete=models.CASCADE,related_name='replies',blank=True,null=True)
     author=models.ForeignKey('User',on_delete=models.CASCADE,related_name='comment')
     likes=models.ManyToManyField('User',related_name='comment_likes',blank=True)
 
@@ -72,7 +95,15 @@ class Comment(form):
     def total_likes(self):
         return self.likes.count()
 
-    
+
+class Message(form2):
+    sender=models.ForeignKey('User',on_delete=models.CASCADE,related_name='send_message')
+    receiver=models.ForeignKey('User',on_delete=models.CASCADE,related_name='receive_message')
+
+    def __str__(self):
+        return 'sender:'+self.sender.username+', receiver:'+self.receiver.username+' - '+self.article
+
+
 
 
 

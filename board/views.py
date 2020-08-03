@@ -1,13 +1,15 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
-from .models import User,Idea
+from .models import User,Idea,Comment,Message
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
 import json
 from .forms import IdeaForm
+from django_email_verification import sendConfirm
+from django.template.loader import render_to_string
 
 
 def index(request):
@@ -29,13 +31,17 @@ def likes_process(request):
 
     if idea.likes.filter(id=user.id).exists():
         idea.likes.remove(user)
+        idea.author.thinker_likes-=1
+        idea.author.save()
         flag=False
     else:
         idea.likes.add(user)
+        idea.author.thinker_likes+=1
+        idea.author.save()
         flag=True
 
     message=idea.likes.count()
-    context={'message':message,'flag':flag}
+    context={'message':str(message)+'명','flag':flag}
     return HttpResponse(json.dumps(context),content_type='application/json')
 
 
@@ -95,6 +101,8 @@ def signin_process(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
+        user=request.user
+        user.update_thinker_status()
         if request.POST.get('remember'):
             settings.SESSION_EXPIRE_AT_BROWSER_CLOSE=False
         else:
@@ -132,7 +140,7 @@ def signup_process(request):
     email=request.POST['email']
     # Add session!!
     user=User.objects.create_user(username=username,password=password,email=email)
-    login(request, user)
+    sendConfirm(user)
     return HttpResponseRedirect(reverse('board:signup_success')) 
 
 def logout_process(request):
@@ -205,3 +213,27 @@ def feedback(request):
 
 def motivation(request):
     return render(request,'board/motivation.html')
+
+def add_comment(request):
+    idea=Idea.objects.get(pk=request.POST['pk'])
+    user=request.user
+    comment=Comment.objects.create(for_idea=idea,author=user,article=request.POST['content'])
+    html = render_to_string('board/comment_list.html',{'comment':comment,'user':user})
+
+    context={'html':html,'article':comment.article,'author':comment.author.username}
+    return HttpResponse(json.dumps(context),content_type='application/json')
+
+def delete_comment(request):
+    comment=Comment.objects.get(pk=request.POST['pk'])
+    comment.delete()
+
+    context={}
+    return HttpResponse(json.dumps(context),content_type='application/json')
+
+def update_comment(request):
+    comment=Comment.objects.get(pk=request.POST['pk'])
+    comment.article=request.POST['content']
+    comment.save()
+
+    context={'article':comment.article}
+    return HttpResponse(json.dumps(context),content_type='application/json')

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'ckeditor_uploader',
+    'django_email_verification',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -137,3 +138,15 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE=False
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = 'media/'
+
+
+EMAIL_ACTIVE_FIELD = 'is_active'
+EMAIL_SERVER = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_ADDRESS = 'yek7334@gmail.com'
+EMAIL_FROM_ADDRESS = 'yek7334@gmail.com'
+EMAIL_PASSWORD = 'guubjudegibkmljf' # os.environ['password_key'] suggested
+EMAIL_MAIL_SUBJECT = 'weneedthis 회원가입을 위한 이메일 인증입니다'
+EMAIL_MAIL_HTML = 'board/mail_body.html'
+EMAIL_PAGE_TEMPLATE = 'board/confirm_template.html'
+EMAIL_PAGE_DOMAIN = 'http://localhost:8000/'
